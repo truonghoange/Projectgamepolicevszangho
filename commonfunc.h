@@ -21,7 +21,7 @@ const int SCREEN_BPP = 32;
 const int COLOR_KEY_R = 167;
 const int COLOR_KEY_G = 175;
 const int COLOR_KEY_B = 180;
-const int RENDER_DRAW_COLOR = 155;
+const int RENDER_DRAW_COLOR = 0Xff;
 #define TILE_SIZE 26
 #define MAX_MAP_X 48
 #define MAX_MAP_Y 24

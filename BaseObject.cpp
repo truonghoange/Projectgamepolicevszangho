@@ -12,7 +12,7 @@ BaseObject::BaseObject() {
 BaseObject::~BaseObject() { 
 
 }
-bool BaseObject::LoadImg(string path, SDL_Renderer* screen) {
+bool BaseObject::Load_Img(string path, SDL_Renderer* screen) {
 	SDL_Texture* new_texture = NULL;
 	SDL_Surface* load_surface = IMG_Load(path.c_str());
 	if (load_surface != NULL) {
@@ -42,11 +42,4 @@ void BaseObject::Free() {
 		rect_.w = 0;
 		rect_.h = 0;
 	}
-}
-void BaseObject::SetRect(const int& x, const int& y) {
-	rect_.x = x;
-	rect_.y = y;
-}
-SDL_Rect BaseObject::GetRect() const {
-	return rect_;
 }
