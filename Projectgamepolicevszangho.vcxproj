@@ -135,12 +135,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="charobject.cpp" />
     <ClCompile Include="commonfunc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapofGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="charobject.h" />
     <ClInclude Include="commonfunc.h" />
+    <ClInclude Include="MapofGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

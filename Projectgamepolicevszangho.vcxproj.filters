@@ -24,6 +24,12 @@
     <ClCompile Include="BaseObject.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="charobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapofGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonfunc.h">
@@ -31,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="BaseObject.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="charobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapofGame.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

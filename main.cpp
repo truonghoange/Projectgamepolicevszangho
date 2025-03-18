@@ -1,5 +1,6 @@
 ﻿#include "commonfunc.h"
 #include "BaseObject.h"
+#include "charobject.h"
 
 BaseObject g_background;
 
@@ -36,7 +37,7 @@ bool InitData()
 }
 
 bool LoadBackground() {
-	bool ret = g_background.Load_Img("image//back_ground.png", g_screen);
+	bool ret = g_background.Load_Img("image//nen.png", g_screen);
 	if (ret == false) return false;
 
 
@@ -61,23 +62,32 @@ int main(int argc, char* argv[]) {
 	if (InitData() == false) return -1;
 	if (LoadBackground() == false) return -1;
 
+
+
+	CharObject g_char;
+	g_char.Load_Img("image//walk_right.png", g_screen);
+	g_char.set_clips();
+
+
 	bool is_quit = false;
 	while (!is_quit) {
 		while (SDL_PollEvent(&g_event) != 0) {
 			if (g_event.type == SDL_QUIT) {
 				is_quit = true;
 			}
+			g_char.HandleInputAction(g_event, g_screen);
 		}
 		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(g_screen);
 
 
 		g_background.Render(g_screen, NULL);
+		g_char.Show(g_screen);
 		
 		SDL_RenderPresent(g_screen);
 
 	}
 	close();
 	return 0;
-	return 0;
+	
 }
