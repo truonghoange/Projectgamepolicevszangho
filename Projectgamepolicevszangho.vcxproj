@@ -106,9 +106,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\Vs2022\LibSdl2\LibSdl2\SDL2_image-2.0.3\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2_mixer-2.0.2\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2_ttf-2.0.14\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Vs2022\Projectgamepolicevszangho\tinyxml2-master;F:\Vs2022\Projectgamepolicevszangho\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2_image-2.0.3\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2_mixer-2.0.2\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2_ttf-2.0.14\include;F:\Vs2022\LibSdl2\LibSdl2\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,13 +134,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="commonfunc.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\BaseObject.cpp" />
+    <ClCompile Include="src\charobject.cpp" />
+    <ClCompile Include="src\commonfunc.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MapofGame.cpp" />
+    <ClCompile Include="tinyxml2-master\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="commonfunc.h" />
+    <ClInclude Include="include\BaseObject.h" />
+    <ClInclude Include="include\charobject.h" />
+    <ClInclude Include="include\commonfunc.h" />
+    <ClInclude Include="include\MapofGame.h" />
+    <ClInclude Include="tinyxml2-master\tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
