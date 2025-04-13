@@ -9,14 +9,14 @@
 
 SDL_Renderer* Game::renderer = nullptr;
 int Game::cameraY = 0;
-Game::Game() : window(nullptr),  isRunning(false) {}
+Game::Game() : window(nullptr), isRunning(false) {}
 
-Game::~Game() {}    
+Game::~Game() {}
 
 bool Game::Init(const char* title, int width, int height) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) return false;
 
-    // ⚠️ Thêm đoạn này:
+
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         SDL_Log("Không thể khởi tạo SDL_image: %s", IMG_GetError());
         return false;
@@ -27,6 +27,8 @@ bool Game::Init(const char* title, int width, int height) {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) return false;
+    srand(static_cast<unsigned int>(time(NULL)));
+    SDL_Log("Random seed initialized with time: %u", static_cast<unsigned int>(time(NULL)));
 
     background = new BackGround(renderer);
 
@@ -75,8 +77,39 @@ void Game::HandleEvents() {
         policeCar->HandleInput(keystates);
     }
 }
+bool Game::SpawnCar(const char* carType) {
+    int xPos = rand() % (800 - 50); 
+    int yOffset = -150 - (rand() % 200);
+    int spawnY = cameraY + yOffset;
 
+    // Kiểm tra chồng lấn
+    SDL_Rect newRect = { xPos, spawnY, 70, 70 }; 
+    for (auto car : cars) {
+        SDL_Rect carRect = car->GetRect();
+        if (SDL_HasIntersection(&newRect, &carRect)) {
+            SDL_Log("Skipped spawn due to overlap at x=%d, y=%d", xPos, spawnY);
+            return false;
+        }
+    }
+    // create xe tren cartype
+    if (strcmp(carType, "Civilian") == 0) {
+        cars.push_back(new CivilianCar(xPos, spawnY));
+        SDL_Log("Spawned %s at x=%d, y=%d", carType, xPos, spawnY);
+        return true;
+    }
+    else if (strcmp(carType, "Criminal") == 0) {
+        cars.push_back(new CriminalCar(xPos, spawnY));
+        SDL_Log("Spawned %s at x=%d, y=%d", carType, xPos, spawnY);
+        return true;
+    }
+    else {
+        SDL_Log("Unknown car type: %s", carType);
+        return false;
+    }
+}
 void Game::Update() {
+    SDL_Log("Update: cars=%zu, bullets=%zu", cars.size(), policeCar ? policeCar->GetBullets().size() : 0);
+
     // Tìm xe tội phạm
     CriminalCar* criminal = nullptr;
     for (auto car : cars) {
@@ -84,29 +117,57 @@ void Game::Update() {
         if (criminal) break;
     }
 
-    // Cập nhật camera theo vị trí Y của xe tội phạm
+    // Cập nhật camera
     if (criminal) {
-        // Đặt camera để xe địch ở giữa màn hình
-
-        cameraY = criminal->GetY() - (Game::SCREEN_HEIGHT / 2);
+        cameraY = criminal->GetY() - (Game::SCREEN_HEIGHT / 5);
+        if (cameraY > Game::MAX_BACKGROUND_HEIGHT - Game::SCREEN_HEIGHT) {
+            cameraY = Game::MAX_BACKGROUND_HEIGHT - Game::SCREEN_HEIGHT;
+        }
         SDL_Log("cameraY=%d, criminalY=%d", cameraY, criminal->GetY());
-
-        
+    }
+    else {
+        SDL_Log("Warning: Criminal car not found!");
     }
 
-    // Kiểm tra khoảng cách: nếu cảnh sát bị bỏ quá xa → thua
-    if (policeCar && criminal) {
-        int distance = policeCar->GetY() - criminal->GetY();
-        if (distance > 500) {
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                "Game Over", "Police car left too far behind!", nullptr);
-            isRunning = false;
+    // Cập nhật danh sách xe dân cho xe tội phạm
+    if (criminal) {
+        std::vector<Car*> civilians;
+        for (auto car : cars) {
+            if (dynamic_cast<CivilianCar*>(car)) {
+                civilians.push_back(car);
+            }
+        }
+        criminal->SetCivilianCars(civilians);
+    }
+
+    // Kiểm tra va chạm giữa PoliceCar và CivilianCar
+    if (policeCar) {
+        SDL_Rect policeRect = policeCar->GetRect();
+        for (auto car : cars) {
+            if (auto civilian = dynamic_cast<CivilianCar*>(car)) {
+                SDL_Rect civRect = civilian->GetRect();
+                if (SDL_HasIntersection(&policeRect, &civRect)) {
+                    SDL_Log("Game Over: Police car hit civilian at (%d,%d)", civRect.x, civRect.y);
+                    isRunning = false;
+                    return;
+                }
+            }
         }
     }
 
-    // Cập nhật tất cả xe (chúng tự xử lý logic của mình)
+    // Kiểm tra khoảng cách: cảnh sát quá xa → thua
+    if (policeCar && criminal) {
+        int distance = policeCar->GetY() - criminal->GetY();
+        if (distance > 500) {
+            SDL_Log("Game Over: Police car too far behind");
+            isRunning = false;
+            return;
+        }
+    }
+
+    // Cập nhật tất cả xe
     for (auto car : cars) {
-        car->Update();
+        if (car) car->Update();
     }
 
     // Cập nhật đạn
@@ -115,28 +176,48 @@ void Game::Update() {
         auto it = bullets.begin();
         while (it != bullets.end()) {
             Bullet* bullet = *it;
+            if (!bullet) {
+                it = bullets.erase(it);
+                continue;
+            }
             bullet->Update();
 
-            // Lấy vị trí tuyệt đối của đạn và xe tội phạm
             SDL_Rect bulletRect = bullet->GetRect();
-            SDL_Rect criminalRect = criminal->GetRect();
-
             bool shouldDelete = false;
 
-            // Kiểm tra va chạm dựa trên vị trí tuyệt đối
+            // Kiểm tra va chạm với xe tội phạm
+            SDL_Rect criminalRect = criminal->GetRect();
             if (SDL_HasIntersection(&bulletRect, &criminalRect)) {
                 criminal->TakeDamage(20);
+                SDL_Log("Bullet hit criminal, HP=%d", criminal->GetHp());
+                shouldDelete = true;
+                if (criminal->IsDead()) {
+                    SDL_Log("Criminal dead!");
+                    isRunning = false;
+                    return;
+                }
+            }
+
+            // Kiểm tra va chạm với xe dân
+            for (auto car : cars) {
+                if (auto civilian = dynamic_cast<CivilianCar*>(car)) {
+                    SDL_Rect civRect = civilian->GetRect();
+                    if (SDL_HasIntersection(&bulletRect, &civRect)) {
+                        SDL_Log("Game Over: Bullet hit civilian at (%d,%d)", civRect.x, civRect.y);
+                        shouldDelete = true;
+                        isRunning = false;
+                        return;
+                    }
+                }
+            }
+
+            // Xóa đạn nếu ra khỏi màn hình
+            int bulletScreenY = bullet->GetY() - cameraY;
+            if (bulletScreenY < -100 || bulletScreenY > Game::SCREEN_HEIGHT + 100) {
+                SDL_Log("Bullet deleted: absoluteY=%d, screenY=%d, cameraY=%d", bullet->GetY(), bulletScreenY, cameraY);
                 shouldDelete = true;
             }
 
-            // Xóa đạn nếu ra khỏi khu vực hiển thị (dựa trên tọa độ tương đối)
-            int bulletScreenY = bullet->GetY() - cameraY; // Tọa độ Y trên màn hình
-           
-            if (bulletScreenY < -100 || bulletScreenY > Game::SCREEN_HEIGHT + 100) {
-                SDL_Log("Bullet deleted at Y=%d, cameraY=%d, bulletScreenY=%d", bullet->GetY(), cameraY, bulletScreenY);
-                shouldDelete = true;
-            }
-            // Xử lý xóa đạn
             if (shouldDelete) {
                 delete bullet;
                 it = bullets.erase(it);
@@ -147,13 +228,36 @@ void Game::Update() {
         }
     }
 
+    // Tạo xe dân
+    static const int MAX_CIVILIANS = 20; // Tăng lên 20
+    int civilianCount = 0;
+    for (auto car : cars) {
+        if (dynamic_cast<CivilianCar*>(car)) civilianCount++;
+    }
 
-    // Tạo thêm xe dân
     Uint32 currentTime = SDL_GetTicks();
-    if (currentTime - lastCivilianSpawnTime > 1000) {
-        int xPos = rand() % (800 - 50); // màn hình 800, xe 50
-        cars.push_back(new CivilianCar(xPos, cameraY - 150)); // spawn cao hơn camera
+    if (civilianCount < MAX_CIVILIANS && currentTime - lastCivilianSpawnTime > 800) { // Giảm xuống 800ms
+        int xPos = rand() % (800 - 50);
+        // Spawn ở nhiều vị trí Y để đa dạng
+        int yOffset = -150 - (rand() % 200); // Từ cameraY-150 đến cameraY-350
+        cars.push_back(new CivilianCar(xPos, cameraY + yOffset));
         lastCivilianSpawnTime = currentTime;
+        SDL_Log("Spawned civilian at x=%d, y=%d", xPos, cameraY + yOffset);
+    }
+
+    // Xóa xe dân ra khỏi màn hình
+    auto carIt = cars.begin();
+    while (carIt != cars.end()) {
+        if (auto civilian = dynamic_cast<CivilianCar*>(*carIt)) {
+            int civScreenY = civilian->GetY() - cameraY;
+            if (civScreenY > Game::SCREEN_HEIGHT + 100) {
+                SDL_Log("Deleting civilian at y=%d", civilian->GetY());
+                delete civilian;
+                carIt = cars.erase(carIt);
+                continue;
+            }
+        }
+        ++carIt;
     }
 
     background->Update();
@@ -161,13 +265,12 @@ void Game::Update() {
 
 
 
-
 void Game::Render() {
-   
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     background->Render(renderer);
-    for (auto car : cars) car->Render(renderer,cameraY);
+    for (auto car : cars) car->Render(renderer, cameraY);
 
     SDL_RenderPresent(renderer);
 }
@@ -180,8 +283,8 @@ void Game::Clean() {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-	IMG_Quit();
+    IMG_Quit();
     SDL_Quit();
-    
+
 
 }

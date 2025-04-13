@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
@@ -34,8 +34,7 @@ public:
     bool Init(const char* title, int width, int height);
     void Run();
     void Clean();
-
-
+    bool SpawnCar(const char* carType);
 private:
     void HandleEvents();
     void Update();

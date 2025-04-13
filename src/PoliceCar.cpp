@@ -5,7 +5,7 @@
 
 PoliceCar::PoliceCar(int x, int y) : Car(x, y) {
     color = { 0, 0, 255, 255 }; // Màu xanh (cảnh sát)
-    speed = 5; // Thêm tốc độ nếu chưa có
+    speed = 3 ; //  tốc độ
 }
 
 void PoliceCar::HandleInput(const Uint8* keystates) {
