@@ -17,6 +17,9 @@
 #include "PoliceCar.h"
 #include"Car.h"
 #include"BackGround.h"
+#include "CivilianCar.h"
+#include "CriminalCar.h"
+#include "Bullet.h"
 
 
 using namespace std;
@@ -35,6 +38,7 @@ public:
     void Run();
     void Clean();
     bool SpawnCar(const char* carType);
+	void HandleInput();
 private:
     void HandleEvents();
     void Update();

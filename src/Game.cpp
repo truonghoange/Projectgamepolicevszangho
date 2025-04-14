@@ -7,7 +7,7 @@
 #include"BackGround.h"
 
 
-SDL_Renderer* Game::renderer = nullptr;
+SDL_Renderer * Game::renderer = nullptr;
 int Game::cameraY = 0;
 Game::Game() : window(nullptr), isRunning(false) {}
 
@@ -78,12 +78,12 @@ void Game::HandleEvents() {
     }
 }
 bool Game::SpawnCar(const char* carType) {
-    int xPos = rand() % (800 - 50); 
+    int xPos = rand() % (800 - 50);
     int yOffset = -150 - (rand() % 200);
     int spawnY = cameraY + yOffset;
 
     // Kiểm tra chồng lấn
-    SDL_Rect newRect = { xPos, spawnY, 70, 70 }; 
+    SDL_Rect newRect = { xPos, spawnY, 70, 70 };
     for (auto car : cars) {
         SDL_Rect carRect = car->GetRect();
         if (SDL_HasIntersection(&newRect, &carRect)) {

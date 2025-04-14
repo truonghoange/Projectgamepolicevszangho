@@ -30,12 +30,20 @@ public:
 		return x;
 	}
 	void Render(SDL_Renderer* renderer, int CameraY);
+    void ToggleSmoke() { smokeOn = !smokeOn; } // Bật/tắt khói
 
 private:
     std::vector<Car*> civilianCars;
 	const int maxHp = 1000; // Giới hạn máu tối đa
     int hp = 1000;
-    
+    // Biến cho animation khói
+    int currentFrame;       // Frame hiện tại trong sprite sheet
+    int frameWidth;         // Chiều rộng mỗi frame
+    int frameHeight;        // Chiều cao mỗi frame
+    int totalFrames;        // Tổng số frame (3: khói trắng, khói xám, không khói)
+    Uint32 lastFrameUpdate; // Thời gian cập nhật frame cuối cùng
+    bool smokeOn;           // Trạng thái khói (bật/tắt)
+    bool smokeWhite;        // Trạng thái khói: trắng (true) hay xám (false)
     
 };
 
