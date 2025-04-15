@@ -79,7 +79,7 @@ void Game::HandleEvents() {
 }
 bool Game::SpawnCar(const char* carType) {
     int xPos = rand() % (800 - 50);
-    int yOffset = -150 - (rand() % 200);
+    int yOffset = -150 - (rand() % 100);
     int spawnY = cameraY + yOffset;
 
     // Kiểm tra chồng lấn
@@ -229,15 +229,15 @@ void Game::Update() {
     }
 
     // Tạo xe dân
-    static const int MAX_CIVILIANS = 20; // Tăng lên 20
+    static const int MAX_CIVILIANS = 30; // Tăng lên 30
     int civilianCount = 0;
     for (auto car : cars) {
         if (dynamic_cast<CivilianCar*>(car)) civilianCount++;
     }
 
     Uint32 currentTime = SDL_GetTicks();
-    if (civilianCount < MAX_CIVILIANS && currentTime - lastCivilianSpawnTime > 800) { // Giảm xuống 800ms
-        int xPos = rand() % (800 - 50);
+    if (civilianCount < MAX_CIVILIANS && currentTime - lastCivilianSpawnTime > 600) { // Giảm xuống 600ms
+        int xPos = rand() % (600 - 50);
         // Spawn ở nhiều vị trí Y để đa dạng
         int yOffset = -150 - (rand() % 200); // Từ cameraY-150 đến cameraY-350
         cars.push_back(new CivilianCar(xPos, cameraY + yOffset));

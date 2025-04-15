@@ -5,7 +5,7 @@
 
 CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(1000), maxHp(1000), currentFrame(0), frameWidth(50), frameHeight(70), totalFrames(3), lastFrameUpdate(0), smokeOn(true), smokeWhite(true) {
     color = { 255, 0, 0, 255 };
-    speed = 2;
+    speed = 4;
     LoadTexture(Game::renderer, "assets/CriminalCar.png"); // Load sprite sheet
     rect.w = 50;
     rect.h = 70;
@@ -102,9 +102,11 @@ void CriminalCar::TakeDamage(int dmg) {
 bool CriminalCar::IsDead() const {
     return hp <= 0;
 }
-
+ 
 void CriminalCar::Render(SDL_Renderer* renderer, int cameraY) {
-    if (hp <= 0) return;
+    if (hp <= 0) {
+        return;
+    }
 
     // Vẽ xe với frame hiện tại
     SDL_Rect drawRect = rect;

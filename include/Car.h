@@ -10,7 +10,7 @@ public:
     virtual ~Car();
     virtual void Update() = 0;
     virtual void Render(SDL_Renderer* renderer, int cameraY);
-    SDL_Rect GetRect() const;
+    virtual SDL_Rect GetRect() const;
     int GetY() const { return y; }
     void LoadTexture(SDL_Renderer* renderer, const std::string& texturePath);
     

@@ -5,7 +5,7 @@
 
 PoliceCar::PoliceCar(int x, int y) : Car(x, y), canShoot(true), lastShotTime(0), sirenOn(true), lastSirenUpdate(0), sirenRed(true), currentFrame(0), frameWidth(50), frameHeight(50), totalFrames(3) {
     color = { 0, 0, 255, 255 };
-    speed = 3;
+    speed = 6;
     LoadTexture(Game::renderer, "assets/PoliceCar.png"); // Load sprite sheet
 }
 
@@ -55,12 +55,12 @@ void PoliceCar::Render(SDL_Renderer* renderer, int cameraY) {
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - lastSirenUpdate >= 500) { // Nhấp nháy mỗi 500ms
             sirenRed = !sirenRed;
-            currentFrame = sirenRed ? 0 : 1; // Frame 0 (đỏ), Frame 1 (xanh)
+            currentFrame = sirenRed ? 0 : 2; // Frame 0 (đỏ), Frame 1 (xanh)
             lastSirenUpdate = currentTime;
         }
     }
     else {
-        currentFrame = 2; // Frame 2 (không đèn)
+        currentFrame = 1; // Frame 2 (không đèn)
     }
 
     // Vẽ xe với frame hiện tại

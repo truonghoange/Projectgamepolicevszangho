@@ -12,13 +12,26 @@ Car::~Car() {
     }
 }
 void Car::LoadTexture(SDL_Renderer* renderer, const std::string& texturePath) {
-	SDL_Surface* surface = IMG_Load(texturePath.c_str());
-	if (!surface) {
-		SDL_Log("Failed to load image: %s", IMG_GetError());
-		return;
-	}
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+    if (texture) {
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
+
+    SDL_Surface* surface = IMG_Load(texturePath.c_str());
+    if (!surface) {
+        SDL_Log("Failed to load surface for texture: %s, error: %s", texturePath.c_str(), IMG_GetError());
+        return;
+    }
+
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!texture) {
+        SDL_Log("Failed to create texture from surface: %s, error: %s", texturePath.c_str(), SDL_GetError());
+        SDL_FreeSurface(surface);
+        return;
+    }
+
+    SDL_Log("Successfully loaded texture: %s", texturePath.c_str());
+    SDL_FreeSurface(surface);
 }
 void Car::Render(SDL_Renderer* renderer, int cameraY) {
     // Chỉ vẽ bánh xe (texture đã được vẽ trong PoliceCar::Render)
