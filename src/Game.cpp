@@ -5,9 +5,10 @@
 #include "Bullet.h"
 #include"Car.h"
 #include"BackGround.h"
+#include"ExplosionEffect.h"
 
 
-SDL_Renderer * Game::renderer = nullptr;
+SDL_Renderer* Game::renderer = nullptr;
 int Game::cameraY = 0;
 Game::Game() : window(nullptr), isRunning(false) {}
 
@@ -78,12 +79,12 @@ void Game::HandleEvents() {
     }
 }
 bool Game::SpawnCar(const char* carType) {
-    int xPos = rand() % (800 - 50);
+    int xPos = rand() % (600 - 50);
     int yOffset = -150 - (rand() % 100);
     int spawnY = cameraY + yOffset;
 
     // Kiểm tra chồng lấn
-    SDL_Rect newRect = { xPos, spawnY, 70, 70 };
+    SDL_Rect newRect = { xPos, spawnY, 80, 80 };
     for (auto car : cars) {
         SDL_Rect carRect = car->GetRect();
         if (SDL_HasIntersection(&newRect, &carRect)) {
@@ -148,6 +149,11 @@ void Game::Update() {
                 SDL_Rect civRect = civilian->GetRect();
                 if (SDL_HasIntersection(&policeRect, &civRect)) {
                     SDL_Log("Game Over: Police car hit civilian at (%d,%d)", civRect.x, civRect.y);
+                    // Thêm vụ nổ tại vị trí va chạm
+                    int explosionX = policeRect.x + policeRect.w / 2;
+                    int explosionY = policeRect.y + policeRect.h / 2;
+                    explosions.push_back(new ExplosionEffect(explosionX, explosionY, renderer));
+                    SDL_Log("Created explosion on police-civilian collision at x=%d, y=%d", explosionX, explosionY);
                     isRunning = false;
                     return;
                 }
@@ -160,6 +166,11 @@ void Game::Update() {
         int distance = policeCar->GetY() - criminal->GetY();
         if (distance > 500) {
             SDL_Log("Game Over: Police car too far behind");
+            // Thêm vụ nổ tại vị trí xe cảnh sát
+            int explosionX = policeCar->GetRect().x + policeCar->GetRect().w / 2;
+            int explosionY = policeCar->GetRect().y + policeCar->GetRect().h / 2;
+            explosions.push_back(new ExplosionEffect(explosionX, explosionY, renderer));
+            SDL_Log("Created explosion on police car at x=%d, y=%d", explosionX, explosionY);
             isRunning = false;
             return;
         }
@@ -190,9 +201,18 @@ void Game::Update() {
             if (SDL_HasIntersection(&bulletRect, &criminalRect)) {
                 criminal->TakeDamage(20);
                 SDL_Log("Bullet hit criminal, HP=%d", criminal->GetHp());
+                // Thêm vụ nổ tại vị trí đạn trúng
+                int explosionX = bulletRect.x; // Vị trí đạn
+                int explosionY = bulletRect.y;
+                explosions.push_back(new ExplosionEffect(explosionX, explosionY, renderer));
+                SDL_Log("Created explosion at x=%d, y=%d", explosionX, explosionY);
                 shouldDelete = true;
                 if (criminal->IsDead()) {
                     SDL_Log("Criminal dead!");
+                    explosionX = criminal->GetRect().x + criminal->GetRect().w / 2;
+                    explosionY = criminal->GetRect().y + criminal->GetRect().h / 2;
+                    explosions.push_back(new ExplosionEffect(explosionX, explosionY, renderer));
+                    SDL_Log("Created explosion on criminal death at x=%d, y=%d", explosionX, explosionY);
                     isRunning = false;
                     return;
                 }
@@ -225,6 +245,20 @@ void Game::Update() {
             else {
                 ++it;
             }
+        }
+    }
+    auto expIt = explosions.begin();
+    while (expIt != explosions.end()) {
+        ExplosionEffect* explosion = *expIt;
+        explosion->Update();
+
+        if (explosion->GetCurrentFrame() >= explosion->GetTotalFrames()) {// Kiểm tra xem vụ nổ đã kết thúc chưa
+            SDL_Log("Explosion finished at x=%d, y=%d", explosion->GetX(), explosion->GetY());
+            delete explosion;
+            expIt = explosions.erase(expIt);
+        }
+        else { 
+            ++expIt;
         }
     }
 
@@ -271,13 +305,15 @@ void Game::Render() {
     SDL_RenderClear(renderer);
     background->Render(renderer);
     for (auto car : cars) car->Render(renderer, cameraY);
-
+    for (auto explosion : explosions) explosion->Render(renderer, cameraY);
     SDL_RenderPresent(renderer);
 }
 
 void Game::Clean() {
     for (auto car : cars) delete car;
     cars.clear();
+    for (auto explosion : explosions) delete explosion;
+    explosions.clear();
     delete background;
     background = nullptr;
 

@@ -3,10 +3,18 @@
 #include <algorithm>
 #include <cmath>
 
-CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(1000), maxHp(1000), currentFrame(0), frameWidth(50), frameHeight(70), totalFrames(3), lastFrameUpdate(0), smokeOn(true), smokeWhite(true) {
+CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(1000), maxHp(1000), currentFrame(0), frameWidth(50), frameHeight(70), totalFrames(3),
+lastFrameUpdate(0), smokeOn(true), smokeWhite(true),
+isExploding(false), explosionFrame(0), explosionFrameWidth(38), explosionFrameHeight(32),
+explosionTotalFrames(5), lastExplosionUpdate(0), explosionTexture(nullptr)
+{
     color = { 255, 0, 0, 255 };
     speed = 4;
     LoadTexture(Game::renderer, "assets/CriminalCar.png"); // Load sprite sheet
+    explosionTexture = IMG_LoadTexture(Game::renderer, "assets/explosion.png");
+    if (!explosionTexture) {
+        SDL_Log("Failed to load explosion texture for criminal: %s", IMG_GetError());
+    }
     rect.w = 50;
     rect.h = 70;
 }
@@ -14,12 +22,24 @@ CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(1000), maxHp(1000), curre
 void CriminalCar::SetCivilianCars(const std::vector<Car*>& civilians) {
     civilianCars = civilians;
 }
-
 void CriminalCar::Update() {
+    if (isExploding) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - lastExplosionUpdate >= 100) { // Chuyển frame mỗi 100ms
+            explosionFrame++;
+            lastExplosionUpdate = currentTime;
+        }
+        return;
+    }
+
+    if (hp <= 0) return;
+
+    // Di chuyển lên trên
     y -= speed;
     rect.y = y;
-    SDL_Log("Criminal y=%d", y);
+    SDL_Log("Criminal y=%d, speed=%d", y, speed);
 
+    // Logic né tránh xe dân
     static float smoothedForceX = 0.0f;
     float avoidForceX = 0.0f;
     bool shouldAvoid = false;
@@ -73,9 +93,10 @@ void CriminalCar::Update() {
         smoothedForceX *= DAMPING;
     }
 
-    x = std::max(0, std::min(x, 800 - rect.w));
+    x = std::max(0, std::min(x, 600 - rect.w));
     rect.x = x;
 
+    // Xử lý va chạm với xe dân (chỉ điều chỉnh x, không ảnh hưởng đến y)
     for (auto civ : civilianCars) {
         if (!civ) continue;
         SDL_Rect civRect = civ->GetRect();
@@ -87,26 +108,43 @@ void CriminalCar::Update() {
             else {
                 x += AVOID_SPEED * 2.0f;
             }
-            x = std::max(0, std::min(x, 800 - rect.w));
+            x = std::max(0, std::min(x, 600 - rect.w));
             rect.x = x;
         }
     }
 }
 
 void CriminalCar::TakeDamage(int dmg) {
+    if (hp <= 0) return;
     hp -= dmg;
-    if (hp < 0) hp = 0;
+    if (hp <= 0) {
+        hp = 0;
+        isExploding = true;
+        lastExplosionUpdate = SDL_GetTicks();
+        SDL_Log("Criminal car started exploding");
+    }
     SDL_Log("[Damage] HP: %d (Damage: %d)", hp, dmg);
 }
 
 bool CriminalCar::IsDead() const {
     return hp <= 0;
 }
- 
+
 void CriminalCar::Render(SDL_Renderer* renderer, int cameraY) {
-    if (hp <= 0) {
+    if (isExploding) {
+        if (explosionFrame < explosionTotalFrames && explosionTexture) {
+            SDL_Rect srcRect = { explosionFrame * explosionFrameWidth, 0, explosionFrameWidth, explosionFrameHeight };
+            SDL_Rect dstRect = {
+                rect.x + (rect.w - explosionFrameWidth) / 2,
+                rect.y - cameraY + (rect.h - explosionFrameHeight) / 2,
+                explosionFrameWidth, explosionFrameHeight
+            };
+            SDL_RenderCopy(renderer, explosionTexture, &srcRect, &dstRect);
+        }
         return;
     }
+
+    if (hp <= 0) return;
 
     // Vẽ xe với frame hiện tại
     SDL_Rect drawRect = rect;

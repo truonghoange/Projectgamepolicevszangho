@@ -28,7 +28,9 @@ BackGround::BackGround(SDL_Renderer* renderer) {
     y = 0;
 }
 
-void BackGround::Update() {}
+void BackGround::Update() {
+    // Không cần làm gì trong Update
+}
 
 void BackGround::Render(SDL_Renderer* renderer) {
     if (!texture) return;
@@ -36,16 +38,18 @@ void BackGround::Render(SDL_Renderer* renderer) {
     int texW, texH;
     SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
 
+    // Lặp background để cuộn liên tục
     int scrollY = Game::cameraY % texH;
     if (scrollY < 0) scrollY += texH;
 
-    SDL_Rect src1 = { 0, scrollY, texW, texH - scrollY };
-    SDL_Rect dest1 = { 0, 0, Game::SCREEN_WIDTH, texH - scrollY };
+    SDL_Rect src1 = { 0, 0, texW, texH };
+    SDL_Rect dest1 = { 0, -scrollY, Game::SCREEN_WIDTH, texH };
     SDL_RenderCopy(renderer, texture, &src1, &dest1);
 
-    if (scrollY > 0) {
-        SDL_Rect src2 = { 0, 0, texW, scrollY };
-        SDL_Rect dest2 = { 0, texH - scrollY, Game::SCREEN_WIDTH, scrollY };
-        SDL_RenderCopy(renderer, texture, &src2, &dest2);
-      }
+    SDL_Rect src2 = { 0, 0, texW, texH };
+    SDL_Rect dest2 = { 0, -scrollY + texH, Game::SCREEN_WIDTH, texH };
+    SDL_RenderCopy(renderer, texture, &src2, &dest2);
+
+    SDL_Log("Rendering background: cameraY=%d, scrollY=%d, dest1.y=%d, dest2.y=%d",
+        Game::cameraY, scrollY, dest1.y, dest2.y);
 }

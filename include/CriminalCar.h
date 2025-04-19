@@ -31,6 +31,7 @@ public:
 	}
 	void Render(SDL_Renderer* renderer, int CameraY);
     void ToggleSmoke() { smokeOn = !smokeOn; } // Bật/tắt khói
+    int GetExplosionFrame() const { return explosionFrame; }
 
 private:
     std::vector<Car*> civilianCars;
@@ -44,6 +45,14 @@ private:
     Uint32 lastFrameUpdate; // Thời gian cập nhật frame cuối cùng
     bool smokeOn;           // Trạng thái khói (bật/tắt)
     bool smokeWhite;        // Trạng thái khói: trắng (true) hay xám (false)
+    // Biến cho hiệu ứng nổ
+    bool isExploding;
+    int explosionFrame;
+    int explosionFrameWidth;
+    int explosionFrameHeight;
+    int explosionTotalFrames;
+    Uint32 lastExplosionUpdate;
+    SDL_Texture* explosionTexture;
     
 };
 

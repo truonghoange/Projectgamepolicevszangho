@@ -17,7 +17,14 @@ private:
     int frameWidth;         // Chiều rộng mỗi frame
     int frameHeight;        // Chiều cao mỗi frame
     int totalFrames;        // Tổng số frame (3: đỏ, xanh, không đèn)
-
+    // Biến cho hiệu ứng nổ
+    bool isExploding;
+    int explosionFrame;
+    int explosionFrameWidth;
+    int explosionFrameHeight;
+    int explosionTotalFrames;
+    Uint32 lastExplosionUpdate;
+    SDL_Texture* explosionTexture;  
 public:
     PoliceCar(int x, int y);
     ~PoliceCar();
@@ -27,4 +34,7 @@ public:
     std::vector<Bullet*>& GetBullets();
     void Shoot();
     void ToggleSiren() { sirenOn = !sirenOn; }
+    bool IsExploding() const { return isExploding; }
+    int GetExplosionFrame() const { return explosionFrame; }
+    void StartExplosion();
 };
