@@ -1,7 +1,7 @@
 ﻿#include "ExplosionEffect.h"
 #include"Game.h"
 
-ExplosionEffect::ExplosionEffect(int x, int y, SDL_Renderer* renderer) : x(x), y(y), frameWidth(38), frameHeight(32), totalFrames(5), currentFrame(0), lastFrameUpdate(0) {
+ExplosionEffect::ExplosionEffect(int x, int y, SDL_Renderer* renderer) : x(x), y(y), frameWidth(38), frameHeight(32), totalFrames(10), currentFrame(0), lastFrameUpdate(0) {
     texture = IMG_LoadTexture(renderer, "assets/explosion.png");
     if (!texture) {
         SDL_Log("Failed to load explosion small texture: %s", IMG_GetError());
@@ -17,7 +17,7 @@ ExplosionEffect::~ExplosionEffect() {
 
 void ExplosionEffect::Update() {
     Uint32 currentTime = SDL_GetTicks();
-    if (currentTime - lastFrameUpdate >= 1000) { // Chuyển frame mỗi 1000ms
+    if (currentTime - lastFrameUpdate >= 600) { // Chuyển frame mỗi 600ms
         currentFrame++;
         lastFrameUpdate = currentTime;
     }

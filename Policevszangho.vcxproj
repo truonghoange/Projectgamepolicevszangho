@@ -140,6 +140,8 @@
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Car.cpp" />
     <ClCompile Include="src\CivilianCar.cpp" />
+    <ClCompile Include="src\ClickButton.cpp" />
+    <ClCompile Include="src\CountDown.cpp" />
     <ClCompile Include="src\CriminalCar.cpp" />
     <ClCompile Include="src\ExplosionEffect.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -151,6 +153,8 @@
     <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Car.h" />
     <ClInclude Include="include\CivilianCar.h" />
+    <ClInclude Include="include\ClickButton.h" />
+    <ClInclude Include="include\CountDown.h" />
     <ClInclude Include="include\CriminalCar.h" />
     <ClInclude Include="include\ExplosionEffect.h" />
     <ClInclude Include="include\Game.h" />
