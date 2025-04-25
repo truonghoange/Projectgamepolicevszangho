@@ -55,11 +55,11 @@
 
 
 ## 🚀 Cách chạy game
-Cách 1:
-B1: clone repo về máy
-B2: cài đặt sdl2 và ide phù hợp
-B3: Mở game lên chơi
-Cách 2: 
-B1: Tải file zip về
-B2: Giải nén
-B3: 
+- 🔹Cách 1:
+- 🔹B1: clone repo về máy
+- 🔹B2: cài đặt sdl2 và ide phù hợp
+- 🔹B3: Mở game lên chơi
+- 🔹Cách 2: 
+- 🔹B1: Tải file zip về
+- 🔹B2: Giải nén
+- 🔹B3: 
