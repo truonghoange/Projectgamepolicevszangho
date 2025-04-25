@@ -34,7 +34,7 @@
 ![Gameplay](assets/screenshot/pos.png)
 
 ### Xe cảnh sát rượt đuổi
-![Car Chase](assets/screenshots/ruot.png)
+![Car Chase](assets/screenshot/ruot.png)
 
 ---
 
