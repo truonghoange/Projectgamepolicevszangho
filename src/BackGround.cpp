@@ -2,22 +2,10 @@
 #include "Game.h"
 #include <SDL_messagebox.h>
 
-BackGround::BackGround(SDL_Renderer* renderer) {
-    SDL_Surface* surface = IMG_Load("image/road.png");
-
-    if (!surface) {
-        SDL_Log("IMG_Load Failed: %s", IMG_GetError());
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "IMG_Load Failed", IMG_GetError(), NULL);
-        texture = nullptr;
-        return;
-    }
-
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
+BackGround::BackGround(SDL_Renderer* renderer, SDL_Texture* texture) : texture(texture) {
     if (!texture) {
-        SDL_Log("CreateTexture Failed: %s", SDL_GetError());
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "CreateTexture Failed", SDL_GetError(), NULL);
+        SDL_Log("Background texture is null!");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Background Texture Failed", "Texture is null", NULL);
     }
     else {
         int texW, texH;

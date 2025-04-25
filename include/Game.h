@@ -23,6 +23,8 @@
 #include "ExplosionEffect.h" 
 #include "ClickButton.h"
 #include "Countdown.h"
+#include "ClassButton.h"
+#include "SoundManager.h"
 using namespace std;
 
 class Game {
@@ -32,6 +34,8 @@ public:
         INSTRUCTIONS,
         PLAYING,
         GAME_OVER,
+        MAP_SELECTION,
+        WIN,
         COUNTDOWN
     };
     Game();
@@ -75,11 +79,27 @@ private:
     GameState gameState;
     SDL_Texture* backgroundTexture;
     SDL_Texture* instructionsTexture;
-    SDL_Texture* gameOverExplosionTexture;
+    SDL_Texture* gameOverTexture;
+   
+    SDL_Texture* map1BackgroundTexture;
+    SDL_Texture* map2BackgroundTexture;
+    SDL_Texture* map3BackgroundTexture;
+    SDL_Texture* winTexture;
+
 
     ClickButton* startButton;
     ClickButton* instructionsButton;
+    ClickButton* mapButton;
     ClickButton* exitButton;
     ClickButton* replayButton;
+
+    CustomButton* easyButton; // Nút Easy
+    CustomButton* normalButton; // Nút Normal
+    CustomButton* hardButton; // Nút Hard
     Countdown* countdown;
+
+    int selectedMap; 
+    int MAX_CIVILIANS;
+    int CIVILIAN_SPAWN_INTERVAL; 
+    int MAX_DISTANCE_TO_LOSE;
 };

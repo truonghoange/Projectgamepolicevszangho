@@ -12,11 +12,11 @@ private:
     // Biến cho animation siren
     bool sirenOn;           // Trạng thái siren (bật/tắt)
     Uint32 lastSirenUpdate; // Thời gian cập nhật siren cuối cùng
-    bool sirenRed;          // Trạng thái đèn: đỏ (true) hay xanh (false)
-    int currentFrame;       // Frame hiện tại trong sprite sheet
-    int frameWidth;         // Chiều rộng mỗi frame
-    int frameHeight;        // Chiều cao mỗi frame
-    int totalFrames;        // Tổng số frame (3: đỏ, xanh, không đèn)
+    bool sirenRed;          
+    int currentFrame;      
+    int frameWidth;         
+    int frameHeight;        
+    int totalFrames;        
     // Biến cho hiệu ứng nổ
     bool isExploding;
     int explosionFrame;

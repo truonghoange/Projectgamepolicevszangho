@@ -9,7 +9,7 @@ isExploding(false), explosionFrame(0), explosionFrameWidth(38), explosionFrameHe
 explosionTotalFrames(5), lastExplosionUpdate(0), explosionTexture(nullptr)
 {
     color = { 255, 0, 0, 255 };
-    speed = 4;
+    
     LoadTexture(Game::renderer, "assets/CriminalCar.png"); // Load sprite sheet
     explosionTexture = IMG_LoadTexture(Game::renderer, "assets/explosion.png");
     if (!explosionTexture) {
@@ -25,7 +25,7 @@ void CriminalCar::SetCivilianCars(const std::vector<Car*>& civilians) {
 void CriminalCar::Update() {
     if (isExploding) {
         Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - lastExplosionUpdate >= 100) { // Chuyển frame mỗi 100ms
+        if (currentTime - lastExplosionUpdate >= 500) { // Chuyển frame 
             explosionFrame++;
             lastExplosionUpdate = currentTime;
         }

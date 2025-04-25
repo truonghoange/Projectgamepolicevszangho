@@ -2,7 +2,7 @@
 #include "Game.h"  
 
 Car::Car(int x, int y) : x(x), y(y), speed(2), texture(nullptr) {
-    rect = { x, y, 50, 70 };
+    rect = { x, y, 70, 70 };
 }
 
 Car::~Car() {
@@ -32,6 +32,9 @@ void Car::LoadTexture(SDL_Renderer* renderer, const std::string& texturePath) {
 
     SDL_Log("Successfully loaded texture: %s", texturePath.c_str());
     SDL_FreeSurface(surface);
+}
+void Car::SetSpeed(int newSpeed) {
+    speed = newSpeed;
 }
 void Car::Render(SDL_Renderer* renderer, int cameraY) {
     // Chỉ vẽ bánh xe (texture đã được vẽ trong PoliceCar::Render)

@@ -2,14 +2,14 @@
 #include "Game.h"
 #include <vector>
 #include "Bullet.h"
-
+#include "SoundManager.h"
 PoliceCar::PoliceCar(int x, int y) : Car(x, y), canShoot(true), lastShotTime(0), sirenOn(true), lastSirenUpdate(0), sirenRed(true),
 currentFrame(0), frameWidth(50), frameHeight(50), totalFrames(3),
 isExploding(false), explosionFrame(0), explosionFrameWidth(38), explosionFrameHeight(32),
 explosionTotalFrames(5), lastExplosionUpdate(0), explosionTexture(nullptr)
 {
     color = { 0, 0, 255, 255 };
-    speed = 5; // Tăng tốc độ để di chuyển mượt hơn
+    
     LoadTexture(Game::renderer, "assets/PoliceCar.png"); // Load sprite sheet
     explosionTexture = IMG_LoadTexture(Game::renderer, "assets/explosion.png");
     if (!explosionTexture) {
@@ -68,11 +68,11 @@ void PoliceCar::HandleInput(const Uint8* keystates) {
     rect.x = x;
     rect.y = y;
 
-    if (keystates[SDL_SCANCODE_SPACE] && canShoot) {
+    if (keystates[SDL_SCANCODE_J] && canShoot) {
         Shoot();
         canShoot = false;
     }
-    else if (!keystates[SDL_SCANCODE_SPACE]) {
+    else if (!keystates[SDL_SCANCODE_J]) {
         canShoot = true;
     }
 }
@@ -146,7 +146,12 @@ std::vector<Bullet*>& PoliceCar::GetBullets() {
 }
 
 void PoliceCar::Shoot() {
-    int bulletX = x + rect.w / 2 - 5;
-    int bulletY = y - 10;
-    bullets.push_back(new Bullet(bulletX, bulletY));
+    Uint32 currentTime = SDL_GetTicks();
+    if (currentTime - lastShotTime >= 500) { // Giới hạn tần suất bắn
+        Bullet* bullet = new Bullet(rect.x + rect.w / 2 - 5, rect.y - 20);
+        bullets.push_back(bullet);
+        lastShotTime = currentTime;
+        SDL_Log("Police car shot a bullet at x=%d, y=%d", bullet->GetRect().x, bullet->GetRect().y);
+        SoundManager::GetInstance().PlayGunshot(); // Phát âm thanh tiếng súng
+    }
 }

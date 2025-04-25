@@ -57,7 +57,7 @@ void Countdown::Update() {
         countdownText = "1";
     }
     else {
-        countdownText = "Start";
+        countdownText = "Start!!!";
         countdownColor = { 255, 0, 0, 255 }; // Màu đỏ cho "Start", alpha = 255 để hiện rõ
     }
 

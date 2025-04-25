@@ -140,6 +140,7 @@
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Car.cpp" />
     <ClCompile Include="src\CivilianCar.cpp" />
+    <ClCompile Include="src\ClassButton.cpp" />
     <ClCompile Include="src\ClickButton.cpp" />
     <ClCompile Include="src\CountDown.cpp" />
     <ClCompile Include="src\CriminalCar.cpp" />
@@ -147,18 +148,21 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PoliceCar.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BackGround.h" />
     <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Car.h" />
     <ClInclude Include="include\CivilianCar.h" />
+    <ClInclude Include="include\ClassButton.h" />
     <ClInclude Include="include\ClickButton.h" />
     <ClInclude Include="include\CountDown.h" />
     <ClInclude Include="include\CriminalCar.h" />
     <ClInclude Include="include\ExplosionEffect.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\PoliceCar.h" />
+    <ClInclude Include="include\SoundManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,6 +11,7 @@ public:
     virtual void Update() = 0;
     virtual void Render(SDL_Renderer* renderer, int cameraY);
     virtual SDL_Rect GetRect() const;
+    void SetSpeed(int newSpeed);
     int GetY() const { return y; }
     void LoadTexture(SDL_Renderer* renderer, const std::string& texturePath);
     
