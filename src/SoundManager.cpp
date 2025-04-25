@@ -2,7 +2,7 @@
 #include <SDL.h>
 
 SoundManager::SoundManager() : backgroundMusic(nullptr), engineRevSound(nullptr),
-gunshotSound(nullptr), explosionSound(nullptr) {
+gunshotSound(nullptr), explosionSound(nullptr), engineRevChannel(-1) {
 }
 
 SoundManager::~SoundManager() {
@@ -10,7 +10,7 @@ SoundManager::~SoundManager() {
 }
 
 SoundManager& SoundManager::GetInstance() {
-    static SoundManager instance; // Singleton instance
+    static SoundManager instance;
     return instance;
 }
 
@@ -46,7 +46,7 @@ bool SoundManager::Init() {
 
 void SoundManager::PlayBackgroundMusic() {
     if (!Mix_PlayingMusic()) {
-        Mix_PlayMusic(backgroundMusic, -1); // -1 để lặp lại vô hạn
+        Mix_PlayMusic(backgroundMusic, -1);
     }
 }
 
@@ -55,7 +55,19 @@ void SoundManager::StopBackgroundMusic() {
 }
 
 void SoundManager::PlayEngineRev() {
-    Mix_PlayChannel(-1, engineRevSound, 0);
+    if (engineRevChannel == -1 || !Mix_Playing(engineRevChannel)) {
+        engineRevChannel = Mix_PlayChannel(-1, engineRevSound, -1); // Lặp vô hạn
+        if (engineRevChannel == -1) {
+            SDL_Log("Không thể phát engine rev sound: %s", Mix_GetError());
+        }
+    }
+}
+
+void SoundManager::StopEngineRev() {
+    if (engineRevChannel != -1 && Mix_Playing(engineRevChannel)) {
+        Mix_HaltChannel(engineRevChannel);
+        engineRevChannel = -1;
+    }
 }
 
 void SoundManager::PlayGunshot() {

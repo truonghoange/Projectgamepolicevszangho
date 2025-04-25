@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-// Các include khác giữ nguyên...
+
 
 SDL_Renderer* Game::renderer = nullptr;
 int Game::cameraY = 0;
@@ -284,7 +284,8 @@ void Game::HandleEvents() {
     while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) {
             isRunning = false;
-            SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền khi thoát game
+            SoundManager::GetInstance().StopBackgroundMusic();
+            SoundManager::GetInstance().StopEngineRev(); // Dừng âm thanh rú ga khi thoát game
             return;
         }
     }
@@ -326,7 +327,8 @@ void Game::HandleEvents() {
             }
             else if (exitButton->IsClicked(mouseX, mouseY)) {
                 exitButton->StartFlashing();
-                SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền khi thoát
+                SoundManager::GetInstance().StopBackgroundMusic();
+                SoundManager::GetInstance().StopEngineRev(); // Dừng âm thanh rú ga khi thoát
                 isRunning = false;
                 SDL_Log("Exit clicked");
             }
@@ -355,7 +357,7 @@ void Game::HandleEvents() {
         else if (gameState == GAME_OVER) {
             if (replayButton->IsClicked(mouseX, mouseY)) {
                 replayButton->StartFlashing();
-                SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền trước khi replay
+                SoundManager::GetInstance().StopBackgroundMusic();
                 gameState = COUNTDOWN;
                 ResetGame();
                 countdown->Start();
@@ -363,7 +365,8 @@ void Game::HandleEvents() {
             }
             else if (exitButton->IsClicked(mouseX, mouseY)) {
                 exitButton->StartFlashing();
-                SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền khi thoát
+                SoundManager::GetInstance().StopBackgroundMusic();
+                SoundManager::GetInstance().StopEngineRev(); // Dừng âm thanh rú ga khi thoát
                 isRunning = false;
                 SDL_Log("Exit clicked");
             }
@@ -371,7 +374,7 @@ void Game::HandleEvents() {
         else if (gameState == WIN) {
             if (replayButton->IsClicked(mouseX, mouseY)) {
                 replayButton->StartFlashing();
-                SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền trước khi replay
+                SoundManager::GetInstance().StopBackgroundMusic();
                 selectedMap++;
                 if (selectedMap > 3) {
                     selectedMap = 1;
@@ -387,7 +390,8 @@ void Game::HandleEvents() {
             }
             else if (exitButton->IsClicked(mouseX, mouseY)) {
                 exitButton->StartFlashing();
-                SoundManager::GetInstance().StopBackgroundMusic(); // Dừng nhạc nền khi thoát
+                SoundManager::GetInstance().StopBackgroundMusic();
+                SoundManager::GetInstance().StopEngineRev(); // Dừng âm thanh rú ga khi thoát
                 isRunning = false;
                 SDL_Log("Exit clicked");
             }
@@ -464,7 +468,6 @@ void Game::Update() {
         if (countdown->IsFinished()) {
             gameState = PLAYING;
             SDL_Log("Countdown finished, starting game");
-            SoundManager::GetInstance().PlayEngineRev();
             SoundManager::GetInstance().StopBackgroundMusic();
         }
         return;
@@ -475,8 +478,8 @@ void Game::Update() {
         }
         static bool playedEndSound = false;
         if ((gameState == WIN || gameState == GAME_OVER) && !playedEndSound) {
-            SoundManager::GetInstance().PlayEngineRev();
-            SoundManager::GetInstance().PlayBackgroundMusic(); // Phát nhạc nền khi WIN hoặc GAME_OVER
+            SoundManager::GetInstance().StopEngineRev(); // Dừng âm thanh rú ga khi WIN hoặc GAME_OVER
+            SoundManager::GetInstance().PlayBackgroundMusic();
             playedEndSound = true;
         }
         else if (gameState != WIN && gameState != GAME_OVER) {
@@ -498,6 +501,9 @@ void Game::Update() {
         }
         return;
     }
+
+    // Phát âm thanh rú ga xuyên suốt trạng thái PLAYING
+    SoundManager::GetInstance().PlayEngineRev();
 
     SDL_Log("Update: cars=%zu, bullets=%zu", cars.size(), policeCar ? policeCar->GetBullets().size() : 0);
 

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(1000), maxHp(1000), currentFrame(0), frameWidth(50), frameHeight(70), totalFrames(3),
+CriminalCar::CriminalCar(int x, int y) : Car(x, y), hp(20), maxHp(20), currentFrame(0), frameWidth(50), frameHeight(70), totalFrames(3),
 lastFrameUpdate(0), smokeOn(true), smokeWhite(true),
 isExploding(false), explosionFrame(0), explosionFrameWidth(38), explosionFrameHeight(32),
 explosionTotalFrames(5), lastExplosionUpdate(0), explosionTexture(nullptr)

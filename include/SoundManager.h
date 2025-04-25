@@ -11,6 +11,7 @@ public:
     void StopBackgroundMusic();
     void PlayEngineRev();
     void PlayGunshot();
+    void StopEngineRev();
     void PlayExplosion();
     void Clean();
 
@@ -27,4 +28,6 @@ private:
     // Không cho phép copy hoặc gán
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
+
+    int engineRevChannel;
 };
