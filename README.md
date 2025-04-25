@@ -27,11 +27,11 @@
 | Di chuyển trái/phải       | A / D            |
 | Bắn súng                  | J        |
 | Di chuyển lên/xuống       | W / S            |
-| Bật tắt siren                  |         |
+| Bật tắt siren                  |      S   |
 ## 📷 Hình Ảnh
-![Hinhanh](assets\screenshot\va.png)
+![Hinhanh](assets/screenshot/va.png)
 ### Giao diện gameplay chính
-![Gameplay](assets\screenshot\pos.png)
+![Gameplay](assets/screenshot/pos.png)
 
 ### Xe cảnh sát rượt đuổi
 ![Car Chase](assets/screenshots/ruot.png)
