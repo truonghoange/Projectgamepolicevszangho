@@ -1,4 +1,4 @@
-# 🚓 Police vs Criminals - Side Scrolling Action Game
+# 🚓 Police vs Criminals - Action Game
 
 Đây là một tựa game tuổi thơ trên điện thoại nokia 1280 nhưng được cải tiến lên trước đây game chỉ có thể di chuyển trái phải để né xe đi ngược chiều nhưng giờ đây với police attack zangho chúng ta có thêm nhiệm vụ đó là đuổi theo và tấn công bằng cách nhấn space để bắn súng vào xe zangho trong lúc bắn chúng ta cũg cần né xe dân đi ngược chiều.Xe tội phạm được tích hợp ai và thuật toán để có thể né tránh 1 cách thụ động xe dân nên việc bắn trúng xe địch là 1 điều khó xe tội phạm thì có thể đâm xe dân nổ nhưng mà xe cảnh sát làm vậy thì thật là khó coi đúng không nên nếu chúng ta đâm phải xe dân thì cả dân và cảnh sát đều nổ đồng nghĩa game over.Với bối cảnh đường phố chúng ta sẽ được trải nghiệm game tốc độ cao thật sự hứa hẹn sẽ rất khó đấy. Bạn dám thử không??? Let's playyyyy nowwww
 
