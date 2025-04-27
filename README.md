@@ -6,8 +6,9 @@
 
 ## 🎬 Demo Video
 
-[![Watch the demo]](https://www.youtube.com/watch?v=QwXQ3mW2XoU)
+[![Watch the demo giải thích code]](https://www.youtube.com/watch?v=QwXQ3mW2XoU)
 
+[![Watch game chơi ]](https://youtube.com/shorts/pNnejwmNqWg)
 ---
 
 ## 🕹️ Gameplay Features
