@@ -1,66 +1,93 @@
-# 🚓 Police vs Criminals - Action Game
+# 🚓 Police vs Criminals - Action Game 🔫  
 
-Đây là một tựa game tuổi thơ trên điện thoại nokia 1280 nhưng được cải tiến lên trước đây game chỉ có thể di chuyển trái phải để né xe đi ngược chiều nhưng giờ đây với police attack zangho chúng ta có thêm nhiệm vụ đó là đuổi theo và tấn công bằng cách nhấn space để bắn súng vào xe zangho trong lúc bắn chúng ta cũg cần né xe dân đi ngược chiều.Xe tội phạm được tích hợp ai và thuật toán để có thể né tránh 1 cách thụ động xe dân nên việc bắn trúng xe địch là 1 điều khó xe tội phạm thì có thể đâm xe dân nổ nhưng mà xe cảnh sát làm vậy thì thật là khó coi đúng không nên nếu chúng ta đâm phải xe dân thì cả dân và cảnh sát đều nổ đồng nghĩa game over.Với bối cảnh đường phố chúng ta sẽ được trải nghiệm game tốc độ cao thật sự hứa hẹn sẽ rất khó đấy. Bạn dám thử không??? Let's playyyyy nowwww
+**Bạn đã sẵn sàng tham gia cuộc rượt đuổi tốc độ cao với những tên tội phạm nguy hiểm nhất?**  
+Một tựa game **hành động kịch tính**, nơi bạn lái **xe cảnh sát**, truy đuổi **xe tội phạm**, **bắn súng**, và **né xe dân** trên đường phố!.Lấy ý tưởng từ game đua xe né chướng ngại vật từ thời nokia 1280 cũ nhưng được cải biến thêm nhiều tính năng.Let's tryy nowww!
 
----
+🎬 **Xem demo game**: [Giải thích code](https://www.youtube.com/watch?v=QwXQ3mW2XoU) | [Gameplay chính](https://youtube.com/shorts/pNnejwmNqWg)  
 
-## 🎬 Demo Video
+## 🚀 Cách tải game  
+Có hai cách để bạn có thể chơi:  
 
-[![Watch the demo giải thích code]](https://www.youtube.com/watch?v=QwXQ3mW2XoU)
+### 1️⃣ **Không bao gồm code**  
+- **Tải bản nén (.zip):** [Download tại đây](https://github.com/truonghoange/Projectgamepolicevszangho/releases/latest)  
+- **Giải nén** vào thư mục và chạy `police_vs_criminals.exe` để chơi.  
 
-[![Watch game chơi ]](https://youtube.com/shorts/pNnejwmNqWg)
----
+### 2️⃣ **Bao gồm code và có thể biên dịch**  
+- Clone repo hoặc tải `.zip`:  
+  ```sh
+  git clone https://github.com/truonghoange/Projectgamepolicevszangho
+-sau khi cài ide và sdl2 thì mọi người có thể chơi game.
 
-## 🕹️ Gameplay Features
+🎮 Hướng dẫn chơi
+- Bắt đầu game: Click vào nút "CLICK TO START!" để khởi động.
+- Truy đuổi tội phạm: Lái xe và tiêu diệt chúng bằng vũ khí của bạn!
+- Các thành phần trong game:
+- 🚗 Xe cảnh sát: Phương tiện chính của bạn, có thể bật siren.
+- 🏹 Xe tội phạm: Kẻ địch có trí tuệ nhân tạo, biết cách né tránh xe dân!
+- 💣 Hiệu ứng cháy nổ: Xe dân bị tông nổ tung, đạn bay, khói lửa!
+- 📉 Thanh tiến trình game: Hiển thị vị trí của bạn trên đường đua.
+- 🔫 Hệ thống vũ khí: Nhấn J để bắn súng vào xe tội phạm.
+- ⏸️ Nút pause: Dừng game hoặc điều chỉnh âm lượng nhạc nền.
 
-- 🔫 **Bắn súng lái xe**, đổi vũ khí linh hoạt
-- 🧠 **AI thông minh**: địch tự né xe thông minh
-- 💣 **Hiệu ứng chiến đấu**: cháy nổ, máu, đạn bay
-- 🚗 **Cảnh truy đuổi trên xe**: né xe dân, bắn hạ xe tội phạm
-- 🌆 **Map tuyến tính dài 2400px**, phong cách thành phố ban đêm,nhiều map để lựa chọn
-  
+🏁 Các loại phương tiện
+| 🚗 Loại xe | 🔥 Chức năng | 
 
----
-## 🎮 Cách chơi
+| Cảnh sát | Xe có thể bắn súng, bật siren, nhưng không được đâm xe dân. | 
 
-| Hành động                  | Phím điều khiển |
-|----------------------------|------------------|
-| Di chuyển trái/phải       | A / D            |
-| Bắn súng                  | J        |
-| Di chuyển lên/xuống       | W / S            |
-| Bật tắt siren                  |      S   |
-## 📷 Hình Ảnh
+| Tội phạm | Xe có AI, biết tránh xe dân nhưng sẽ nổ tung nếu va chạm. | 
+
+| Xe dân | Xe vô tội, nếu bị cảnh sát đâm vào thì game over! | 
+
+
+🏆 Chiến thắng và thất bại
+
+| Tình huống | Kết quả | 
+
+| 🚔 Tiêu diệt xe tội phạm | ✅ Thắng | 
+
+| 🚗 Đâm/Bắn phải xe dân | ❌ Thua | 
+
+| 🚨 Xe cảnh sát tụt lại quá xa | ❌ Thua | 
+
+
+📷 Hình ảnh trong game
 ![Hinhanh](assets/screenshot/va.png)
-### Giao diện gameplay chính
+🎮 Giao diện chính
 ![Gameplay](assets/screenshot/pos.png)
 
-### Xe cảnh sát rượt đuổi
+🚗 Xe cảnh sát rượt đuổi
 ![Car Chase](assets/screenshot/ruot.png)
 
----
+🛠️ Công nghệ sử dụng
+🔹 Ngôn ngữ: C++
+🔹 Thư viện: SDL2
+🔹 Đồ họa: Photoshop, Tiled
+🔹 Hình ảnh: AI-generated, OpenArt, Pinterest
+🔹 Âm thanh: WAV
 
-## 🧰 Công nghệ sử dụng
+🚗 Mẹo chơi
 
-- 🔹 Ngôn ngữ: C++
-- 🔹 Thư viện: SDL2
-- 🔹 Đồ họa: Photoshop, Chỉnh kích thước ảnh, xóa nền,...
-- 🔹 Hình ảnh: AI,[openart](https://opengameart.org/), [pinterest](https://www.pinterest.com/)
-- 🔹 Tile map:Tiled
-- 🔹 Âm thanh: WAV, nguồn [](https://www.online-convert.com/result#j=a4c5c74c-3550-4eca-9f61-70a88e439fe2)
-- 
+✅ Tránh xe dân bằng cách lạng lách khéo léo!
 
----
-📌 Mẹo chơi
-🚗 Khi rượt đuổi trên xe, hãy tránh các xe dân bằng cách lạng lách nhanh chóng.
-💥 Kẻ địch có thể né rất nhanh nên cẩn thận khi bám sát chúng vì va xe dân rất dễ
+✅ Kẻ địch có AI né tránh rất nhanh, hãy canh chuẩn xác khi bắn!
+
+✅ Sử dụng siren để đánh lừa đối thủ và thay đổi chiến thuật!
+
+🚀 Cách chạy game
+🔹 Cách 1 - Chạy source code
+1️⃣ Clone repo:
+git clone https://github.com/truonghoange/Projectgamepolicevszangho.git
 
 
-## 🚀 Cách chạy game
-- 🔹Cách 1:
-- 🔹B1: clone repo về máy
-- 🔹B2: cài đặt sdl2 và ide phù hợp
-- 🔹B3: Mở game lên chơi
-- 🔹Cách 2: 
-- 🔹B1: Tải file zip về
-- 🔹B2: Giải nén
-- 🔹B3: 
+2️⃣ Cài đặt SDL2 & IDE phù hợp.
+3️⃣ Chạy game và tham gia cuộc truy đuổi ngay!
+🔹 Cách 2 - Chạy bản nén
+1️⃣ Tải file .zip.
+2️⃣ Giải nén.
+3️⃣ Chạy game và trải nghiệm ngay!
+
+🔹 Đóng góp & phát triển: Nếu bạn muốn tham gia cải thiện game, hãy mở một issue hoặc gửi pull request!
+✨ Chúc bạn chơi game vui vẻ! 🚀
+
+
+
